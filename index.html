@@ -7,72 +7,65 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap');
 
-    /* ====== Reset & Base ====== */
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html,body { height: 100%; }
+    html, body { height: 100%; }
+
     body {
       font-family: 'Cairo', sans-serif;
       background: #0e0e0e;
       color: #f1f1f1;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
       line-height: 1.7;
     }
 
-    /* ====== Header ====== */
-    header{
+    header {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       height: 92px;
       background: rgba(18,18,18,0.95);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding:14px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 28px;
       border-bottom: 1px solid rgba(212,175,55,0.06);
       z-index: 1000;
       backdrop-filter: blur(6px);
     }
-    .header-left { text-align:right; }
+
     .header-left h2 { color: #d4af37; font-size:1.05rem; margin-bottom:4px; font-weight:700; }
     .header-left p { color: #f1f1f1; font-size:0.92rem; opacity:0.95; }
 
-    .logo-center { display:flex; align-items:center; justify-content:center; gap:12px; }
     .logo-center img {
       width:84px; height:84px; border-radius:50%;
       border:3px solid #d4af37; object-fit:cover;
-      transition: transform .35s ease;
       background:#0b0b0b;
+      transition: transform .35s ease;
     }
     .logo-center img:hover { transform: scale(1.06) rotate(2deg); }
 
     nav { display:flex; gap:14px; align-items:center; }
     nav a {
-      color: #d4af37; text-decoration:none; font-weight:600; padding:8px 12px; border-radius:8px;
+      color: #d4af37; text-decoration:none; font-weight:600;
+      padding:8px 12px; border-radius:8px;
       transition: all .22s ease;
       font-size:0.95rem;
     }
     nav a:hover { color:#fff; background: rgba(255,255,255,0.02); }
 
-    /* ====== Page container ====== */
-    main{ max-width:1150px; margin:110px auto 80px; padding:0 20px; }
+    main { max-width:1150px; margin:110px auto 80px; padding:0 20px; }
 
     section {
       margin-bottom:36px;
       opacity:0;
       transform: translateY(16px);
-      transition: opacity .7s cubic-bezier(.2,.9,.2,1), transform .7s cubic-bezier(.2,.9,.2,1);
+      transition: opacity .7s ease, transform .7s ease;
     }
     section.visible { opacity:1; transform:none; }
 
-    h1,h2,h3 { color:#d4af37; margin-bottom:12px; }
+    h1, h2, h3 { color:#d4af37; margin-bottom:12px; }
     p { color:#e9eef0; font-size:1rem; }
-
     .divider { height:3px; width:96px; background:#d4af37; border-radius:3px; margin:10px 0 20px; }
 
-    /* ====== Evidence card styles ====== */
+    /* Evidence sections */
     .evidence-section {
       background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
       border:1px solid rgba(255,255,255,0.03);
@@ -82,29 +75,32 @@
       margin-bottom:18px;
     }
 
-    /* image gallery */
     .image-gallery {
-      display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap:12px;
-      margin-top:14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+      margin-top: 14px;
     }
+
     .image-gallery img {
-      width:100%;
-      height:200px;
-      object-fit:cover;
-      border-radius:10px;
-      border:2px solid rgba(212,175,55,0.10);
+      width: 100%;
+      max-width: 320px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+      cursor: zoom-in;
+      border: 2px solid rgba(212,175,55,0.10);
+      background: #0b0b0b;
       transition: transform .28s ease, box-shadow .28s ease;
-      background:#0b0b0b;
     }
+
     .image-gallery img:hover {
       transform: translateY(-6px) scale(1.02);
       box-shadow: 0 12px 28px rgba(0,0,0,0.6);
       border-color: rgba(212,175,55,0.28);
     }
 
-    /* plaintiff block */
     .plaintiff {
       display:flex;
       gap:26px;
@@ -115,39 +111,85 @@
       align-items:center;
       box-shadow: 0 10px 30px rgba(2,6,23,0.6);
     }
+
     .plaintiff img {
       width:180px; height:180px; border-radius:50%; object-fit:cover; border:3px solid #d4af37;
       background:#0b0b0b;
     }
-    .plaintiff-info h3 { color:#d4af37; font-size:1.25rem; margin-bottom:8px; }
+
+    .plaintiff-info h3 { font-size:1.25rem; margin-bottom:8px; color:#d4af37; }
     .plaintiff-info p { color:#e6e9ea; margin-bottom:10px; }
     .plaintiff-stats { color:#ccc; font-size:0.98rem; margin-top:8px; }
     .plaintiff-stats span { color:#d4af37; font-weight:700; }
 
-    /* responsive */
-    @media (max-width:980px){
-      header{ padding:12px 18px; height:auto; gap:8px; flex-wrap:wrap; align-items:center; }
-      .logo-center img{ width:64px; height:64px; }
-      .plaintiff { flex-direction:column; text-align:center; }
-      .plaintiff img{ width:160px; height:160px; }
-      main{ margin-top:140px; }
-      .image-gallery img{ height:160px; }
+    .muted { color:#bfc7c9; font-size:0.95rem; }
+
+    /* Lightbox */
+    .lightbox {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.88);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
     }
 
-    /* small helper */
-    .muted{ color:#bfc7c9; font-size:0.95rem; }
+    .lightbox.active {
+      display: flex;
+    }
+
+    .lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.7);
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+
+    @media (max-width: 980px) {
+      header {
+        flex-wrap: wrap;
+        padding: 12px 18px;
+        height: auto;
+      }
+
+      .plaintiff {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .plaintiff img {
+        width: 160px;
+        height: 160px;
+      }
+
+      main {
+        margin-top: 140px;
+      }
+
+      .image-gallery img {
+        height: 160px;
+      }
+    }
   </style>
 </head>
+
 <body>
 
   <header>
     <div class="header-left">
       <h2>قضية دفاع و شكوى ضد الشرطة</h2>
-      <p>المدعي : Kaddour Moustach</p>
+      <p>المدعي: Kaddour Moustach</p>
     </div>
 
     <div class="logo-center">
-      <!-- ضع ملف الشعار في images/logo.png -->
       <img src="images/logo.png" alt="شعار الموقع">
     </div>
 
@@ -159,7 +201,7 @@
     </nav>
   </header>
 
-  <main>
+    <main>
     <!-- ====== Case Overview ====== -->
     <section id="case" class="visible">
       <h1>القضية الأساسية</h1>
@@ -280,38 +322,39 @@
 
     </section>
 
-    <!-- ====== Plaintiff Info ====== -->
     <section id="plaintiff">
       <h2>معلومات حول المدعي</h2>
       <div class="divider"></div>
-
       <div class="plaintiff">
         <img src="images/plaintiff.jpg" alt="صورة المدعي">
         <div class="plaintiff-info">
           <h3>Kaddour Moustach</h3>
-          <p class="muted">ضابط سابق ذو خبرة في التحقيقات والتحليل الأمني. معروف بالتزامه بالمعايير المهنية والسعي لكشف الحقائق.</p>
-          <p>يقود المدّعي ملف الدفاع هذا ويعتمد على أدلة رقمية وميدانية موثقة لتفنيد الادعاءات الموجهة ضده وإثبات براءته أمام الجهات المختصة.</p>
+          <p class="muted">ضابط سابق متخصص في التحقيقات الأمنية.</p>
+          <p>يقدم أدلة قوية لتفنيد الاتهامات.</p>
           <div class="plaintiff-stats">عدد القضايا الناجحة: <span>12</span></div>
         </div>
       </div>
     </section>
 
-    <!-- ====== Contact ====== -->
     <section id="contact">
       <h2>التواصل</h2>
       <div class="divider"></div>
-      <p class="muted">للمزيد من المعلومات أو لإرسال مستندات داعمة، يُرجى التواصل عبر البريد الإلكتروني التالي:</p>
+      <p class="muted">للتواصل أو إرسال مستندات:</p>
       <p style="color:#d4af37; margin-top:10px; font-weight:700;">contact@justice-case.com</p>
     </section>
-
   </main>
 
   <footer>
     <p class="muted">© 2025 - جميع الحقوق محفوظة</p>
   </footer>
 
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <img src="" alt="عرض مكبر">
+  </div>
+
   <script>
-    // Smooth reveal on scroll
+    // Reveal sections on scroll
     const sections = document.querySelectorAll('main section');
     const revealOnScroll = () => {
       const trigger = window.innerHeight - 80;
@@ -323,16 +366,32 @@
     window.addEventListener('scroll', revealOnScroll);
     window.addEventListener('load', revealOnScroll);
 
-    // Smooth anchor scrolling (for older browsers that might not support CSS smooth behavior)
-    document.querySelectorAll('nav a').forEach(anchor=>{
+    // Smooth scroll to anchors
+    document.querySelectorAll('nav a').forEach(anchor => {
       anchor.addEventListener('click', function(e){
         e.preventDefault();
-        const targetId = this.getAttribute('href').slice(1);
-        const el = document.getElementById(targetId);
+        const el = document.getElementById(this.getAttribute('href').slice(1));
         if (!el) return;
         const top = el.getBoundingClientRect().top + window.pageYOffset - 90;
         window.scrollTo({ top, behavior: 'smooth' });
       });
+    });
+
+    // Lightbox script
+    const lightbox = document.getElementById("lightbox");
+    const imgs = document.querySelectorAll(".image-gallery img");
+    const lightboxImg = lightbox.querySelector("img");
+
+    imgs.forEach(img => {
+      img.addEventListener("click", () => {
+        lightboxImg.src = img.src;
+        lightbox.classList.add("active");
+      });
+    });
+
+    lightbox.addEventListener("click", () => {
+      lightbox.classList.remove("active");
+      lightboxImg.src = "";
     });
   </script>
 
